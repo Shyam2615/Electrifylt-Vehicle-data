@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% block start %}
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary shadow-lg">
+    <div class="container-fluid " style="display: flex;
+    justify-content: space-around; ">
+      <a class="navbar-brand" href="#" style="font-size: 25px;">Dashboard</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="nav-underline navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="/">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/report-type/">Report Type</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="/frequency/">Frequency</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/time-frame/">Time Frame</a>
+          </li>
+        </ul>
+      </div>
+
+        <form class="d-flex" role="search">
+          <input name="search" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+
+<div class="mt-4" style="border: 10px solid black; padding: 10px;">
+<form method="post">
+    {% csrf_token %}
+      <div class="container mt-2 mb-2">
+        <div class="form-floating">
+            <select class="form-select" id="reportType" aria-label="Floating label select example" name="reportType">
+              <option selected>Open this select menu</option>
+              <option value="total_miles_driven">Total Miles Driven</option>
+            </select>
+            <label for="reportType">Works with selects</label>
+          </div>
+          <br>
+          <div class="form-floating">
+            <select class="form-select" id="frequency" aria-label="Floating label select example" name="frequency">
+              <option selected>Open this select menu</option>
+              <option value="daily">Daily</option>
+              <option value="weekly">Weekly</option>
+              <option value="monthly">Monthly</option>
+              <option value="yearly">Yearly</option>
+            </select>
+            <label for="reportType">Works with selects</label>
+          </div>
+          <br>
+        <label for="fromDate">From</label>
+        <input type="date" id="fromDate" name="fromDate">
+        <label for="toDate">To</label>
+        <input type="date" id="toDate" name="toDate">
+        <br><br>
+        <button type="submit">Generate Report</button>
+      </div>
+    </form>
+
+    <div class="container shadow-lg" >
+    {% if dataSet %}
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Day</th>
+            <th scope="col">Total Miles</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for data in dataSet %}
+            {% if data.day %}
+          <tr>
+            <td>{{data.day}}</td>
+            <td>{{data.total_miles_driven}}</td>
+          </tr>
+            {% elif data.week %}
+            <tr>
+                <td>{{data.week}}</td>
+                <td>{{data.total_miles_driven}}</td>
+            </tr>
+            {% elif data.month %}
+            <tr>
+                <td>{{data.month}}</td>
+                <td>{{data.total_miles_driven}}</td>
+            </tr>
+            {% elif data.year %}
+            <tr>
+                <td>{{data.year}}</td>
+                <td>{{data.total_miles_driven}}</td>
+            </tr>
+            {% endif %}
+            
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+    <div class="alert alert-warning mt-3" role="alert">
+        <strong>{{ error_message }}</strong>
+    </div>
+    {% endif %}
+</div>
+</div>
+
+{% endblock %}

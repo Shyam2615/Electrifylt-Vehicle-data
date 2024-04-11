@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block start %}
+<nav class="navbar navbar-expand-lg bg-body-tertiary shadow-lg">
+    <div class="container-fluid " style="display: flex;
+    justify-content: space-around; ">
+      <a class="navbar-brand" href="#" style="font-size: 25px;">Dashboard</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="nav-underline navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="/">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="/report-type/">Report Type</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/frequency/">Frequency</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/time-frame/">Time Frame</a>
+          </li>
+        </ul>
+      </div>
+
+        <form class="d-flex" role="search">
+          <input name="search" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+
+  <form method="post" >
+    {% csrf_token %}
+    <div class="mt-4" style="border: 10px solid black; padding: 10px;">
+      <div class="container mt-2 mb-2">
+        <div class="form-floating">
+            <select class="form-select" id="reportType" aria-label="Floating label select example" name="reportType">
+              <option selected>Open this select menu</option>
+              <option value="total_miles_driven">Total Miles Driven</option>
+            </select>
+            <label for="reportType">Works with selects</label>
+          </div>
+          <br>
+        <label for="fromDate">From</label>
+        <input type="date" id="fromDate" name="fromDate">
+        <label for="toDate">To</label>
+        <input type="date" id="toDate" name="toDate">
+        <br><br>
+        <button type="submit">Generate Report</button>
+        <div class="alert alert-warning mt-3" role="alert">
+            <strong>Total Miles Driven :</strong> {{Response}}
+        </div>
+      </div>
+    </div>
+  </form>
+  
+
+{% endblock %}

@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block start %}
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary shadow-lg">
+    <div class="container-fluid " style="display: flex;
+    justify-content: space-around; ">
+      <a class="navbar-brand" href="#" style="font-size: 25px;">Dashboard</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="nav-underline navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link " aria-current="page" href="/">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/report-type/">Report Type</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/frequency/">Frequency</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="/time-frame/">Time Frame</a>
+          </li>
+        </ul>
+      </div>
+
+        <form class="d-flex" role="search">
+          <input name="search" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+ 
+<div class="mt-4" style="border: 5px solid black;">
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="container mt-2 mb-2">
+            <label for="input">From</label>
+            <input type="date" name="fromDate">
+            <label for="input">To</label>
+            <input type="date" name="toDate">
+            <input type="submit">
+        </div>
+    </form>
+    
+    {% if data %}
+    <div class="container mt-3 shadow-lg">
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">Sl No</th>
+                <th scope="col">License plate</th>
+                <th scope="col">Make</th>
+                <th scope="col">VIN</th>
+                <th scope="col">Model</th>
+                <th scope="col">Type</th>
+                <th scope="col">Date</th>
+                <th scope="col">Miles Driven</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for result in data %}
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ result.LicensePlate }}</td>
+                <td>{{ result.Make }}</td>
+                <td>{{ result.VIN }}</td>
+                <td>{{ result.Model }}</td>
+                <td>{{ result.Type }}</td>
+                <td>{{ result.date_str }}</td>
+                <td>{{ result.MilesDriven }}</td>
+              </tr>
+            </tbody>
+              {% endfor %}
+            </table>
+        </div>
+    </div>
+    
+    {% else %}
+    <div class="container">
+      <div class="alert alert-warning mt-3" role="alert">
+        <strong>{{error}}</strong>
+    </div>
+  </div>
+    {% endif %}
+</div>
+
+{% endblock %}
